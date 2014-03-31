@@ -9,7 +9,7 @@ Zend2 Integrating commons is an integration of
 
 
 Screenshot for Homepage after Authentication:
-    ![ScreenShot](https://raw.github.com/kazitanvirahsan/Zend2-Integrating-Commons/blob/master/home.png)
+    ![ScreenShot](https://github.com/kazitanvirahsan/Zend2-Integrating-Commons/blob/master/home.png)
 
 Prepared and Developed By Kazi T Ahsan
 
