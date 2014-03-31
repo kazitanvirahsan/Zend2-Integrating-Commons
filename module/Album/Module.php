@@ -16,7 +16,8 @@ use Zend\Mvc\MvcEvent;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
-
+use Zend\ModuleManager\ModuleManager;
+use Zend\EventManager\EventInterface;
 
 class Module 
 {
@@ -26,7 +27,6 @@ class Module
         return include __DIR__ . '/config/module.config.php';
     }
 
- 
     public function getAutoloaderConfig()
     {
         return array(
@@ -40,18 +40,31 @@ class Module
             ),
         );
     }
-    
+
+    public function onBootstrap($e)
+    {
+        $e->getApplication()->getEventManager()->getSharedManager()->attach('Zend\Mvc\Controller\AbstractController', 'dispatch', function($e) {
+        $controller = $e->getTarget();
+        $controllerClass = get_class($controller);
+        $moduleNamespace = substr($controllerClass, 0, strpos($controllerClass, '\\'));
+        $controller->layout($moduleNamespace . '/layout');
+        }, 100);
+    }  
+
+
     public function getServiceConfig()
     {
+
         return array(
             'factories' => array( 
+
+                'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory', // <-- add this
                 
                 'db' => function($sm) {
+
                     //echo PHP_EOL . "SM db-adapter executed." . PHP_EOL;
                     $config = $sm->get('config');
                     $config = $config['db'];
-                    //print_r($config);
-                    //exit();
                     $dbAdapter = new Adapter($config);
                     return $dbAdapter;
                 },

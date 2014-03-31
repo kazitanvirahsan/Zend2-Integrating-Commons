@@ -6,6 +6,7 @@
     
     class IndexController extends AbstractActionController  {
         public function indexAction()  {
+            
             $form = new ContactForm();
             $views = new ViewModel(array('text'=> 'Contact us' ,  
                                          'form' => $form));    

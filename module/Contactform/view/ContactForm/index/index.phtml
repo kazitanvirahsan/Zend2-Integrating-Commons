@@ -1,8 +1,81 @@
+<style>
+ form div {
+    width: 500px;
+ }
+
+ label{
+    display: inline-block;
+    width:150px;
+ }
+ 
+ input[type='text'] {
+     display: inline-block;
+     width:200px;    
+ }
+ 
+ 
+ form div.subBtnWrapper {
+    text-align:center;
+ }
+ 
+ form div input[type='submit'] {
+    display: inline-block;
+    position:relative;
+    width: 50px;
+    margin: 0 auto; 
+ }
+</style>
 <h1><?php echo $this->text; ?></h1>
 <?php
 $form = $this->form;
-$form->setAttribute('action', $this->url('album', array('action' => 'add')));
 $form->prepare();
+$form->setAttribute('action', $this->url('album', array('action' => 'add')));
 echo $this->form()->openTag($form);
-echo $this->formCollection($form);
+
+?>
+
+<!--user name -->
+<div>
+<?php
+$name = $form->get('name');
+echo $this->formLabel($name);
+echo $this->formInput($name);
+echo $this->formElementErrors($name);
+?>
+</div>
+
+<!-- email address -->
+<div>
+<?php 
+$email = $form->get('email');
+echo $this->formLabel($email);
+echo $this->formInput($email);
+echo $this->formElementErrors($email);
+?>
+</div>
+
+<!-- message -->
+<div>
+<?php 
+$message = $form->get('message');
+echo $this->formLabel($message);
+echo $this->formInput($message);
+echo $this->formElementErrors($message);
+?>
+</div>
+
+
+<!-- capcha -->
+<div>
+<?php 
+$captcha = $form->get('captcha');
+echo $this->formLabel($captcha);
+echo $this->formCaptcha($captcha);
+echo $this->formElementErrors($captcha);
+?>
+</div>
+
+
+<?php 
+echo "<div class='subBtnWrapper'>" . $this->formSubmit($form->get('submit')) . '</div>' ;
 echo $this->form()->closeTag();

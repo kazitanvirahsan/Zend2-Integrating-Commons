@@ -1,20 +1,17 @@
 <?php
 
 //source: http://framework.zend.com/manual/2.2/en/modules/zend.form.quick-start.html
-
 namespace Contactform\Form;
-
 use Zend\Form\Form;
 use Zend\Form\Element;
-use Zend\Captcha\Figlet as Figlet;
+use Zend\Captcha\Image as CaptchaImage; 
 
 class ContactForm extends Form
 {
     protected $captcha;
     
     public function __construct()
-    {
-        
+    { 
         // we want to ignore the name passed
         parent::__construct('contact');
         $this->setAttribute('method', 'post');
@@ -27,7 +24,7 @@ class ContactForm extends Form
         	    'type' => 'Text',    
         ),
             'options' => array (
-                'label' => 'Your Name'    
+                'label' => 'Name'    
         ),	
         ));
         
@@ -38,10 +35,9 @@ class ContactForm extends Form
         	    'type' => 'Zend\Form\Element\Email',
         ),
             'options' => array(
-                'label' => 'Your email address'            	
+                'label' => 'Email'            	
         ),
         ));
-        
         /* add message */
         $this->add(array(
         	'name' => 'message' ,
@@ -51,33 +47,29 @@ class ContactForm extends Form
             'options' => array(
         	    'label' => 'Message'
         ),
-        ));
+        ));       
         
-        
-        // Originating request:
-        $captcha = new Figlet(array(
-            'name' => 'foo',
-            'wordLen' => 6,
-            'timeout' => 300,
-        ));
-        
-        $id = $captcha->generate();
-        
-        // add capcha
-       
+$captchaImage = new CaptchaImage(  array(
+                'font' => './data/fonts/arial.ttf',
+                'imgDir' => './public/captcha',
+                'imgurl' => '/captcha',
+                'width' => 250,
+                'height' => 100,
+                'dotNoiseLevel' => 40,
+                'lineNoiseLevel' => 3)
+        );
+
+        //add captcha element...
         $this->add(array(
-            'name' => 'capcha',
-            'attributes' => array(
-        	    'type' => 'Zend\Form\Element\Captcha' 
-        ),
-            'options'=> array(
-        	    'label' => 'Please verify you are human',
-                'capcha' => $captcha,
-        )	
-        ));
+            'type' => 'Zend\Form\Element\Captcha',
+            'name' => 'captcha',
+            'options' => array(
+                'label' => 'Please verify you are human',
+                'captcha' => $captchaImage,
+            ),
+        ));        
         
-        
-        //$this->add(new Element\Csrf('secutiry'));
+        $this->add(new Element\Csrf('secutiry'));
         
         $this->add(array(
             'name' => 'submit',
