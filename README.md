@@ -1,4 +1,4 @@
-Zend2 Integrating commons is an integration of
+Zend2 Integrating commons is simply an integration of some common Zend 2 features as below
 
 1. ZF2 Authentication
 2. ZF2 CRUD
